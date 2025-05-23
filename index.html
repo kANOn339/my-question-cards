@@ -1,320 +1,304 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="ja">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.5">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自分と向き合うための質問カード</title>
+    <style>
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #4a6fa5;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        
+        .card-container {
+            perspective: 1000px;
+            height: 400px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        
+        .card-front {
+            background: linear-gradient(135deg, #6a98d9, #4a6fa5);
+            color: white;
+        }
+        
+        .card-back {
+            background: white;
+            transform: rotateY(180deg);
+            color: #333;
+        }
+        
+        .question-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .question-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .question-hint {
+            font-size: 16px;
+            margin-top: 20px;
+            opacity: 0.9;
+        }
+        
+        .question-guidance {
+            font-size: 15px;
+            margin-top: 30px;
+            line-height: 1.6;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        button {
+            background: #4a6fa5;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #3d5d8a;
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .flip-instruction {
+            font-size: 13px;
+            color: #777;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .card-progress {
+            margin-top: 15px;
+            text-align: center;
+            color: #666;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="ja"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;自分と向き合うための質問カード&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f5f5f5;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>min-height: 100vh;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #333;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.container {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>max-width: 500px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>h1 {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #4a6fa5;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 24px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.card-container {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>perspective: 1000px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 400px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.card {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transform-style: preserve-3d;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: transform 0.8s;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 8px rgba(0,0,0,0.1);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.card.flipped {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transform: rotateY(180deg);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.card-face {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>backface-visibility: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>box-sizing: border-box;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.card-front {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: linear-gradient(135deg, #6a98d9, #4a6fa5);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.card-back {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: white;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transform: rotateY(180deg);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #333;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.question-number {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>top: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>left: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0.8;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.question-title {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 22px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.question-hint {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0.9;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.question-guidance {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.6;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.navigation {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-between;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>button {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: #4a6fa5;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px 15px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 5px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: background 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>button:hover {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: #3d5d8a;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>button:disabled {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: #ccc;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cursor: not-allowed;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.flip-instruction {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 13px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #777;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.card-progress {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #666;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.footer {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #777;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1&gt;自分と向き合うための質問カード&lt;/h1&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="card" id="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="card-face card-front"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="question-number" id="question-number"&gt;質問 1/10&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="question-title" id="question-title"&gt;今日、あなたが避けていることは何ですか？&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="question-hint"&gt;タップしてヒントを見る&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="card-face card-back"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="question-number"&gt;質問 1/10&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="question-title"&gt;今日、あなたが避けていることは何ですか？&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="question-guidance"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>避けていることには、あなたの成長のヒントが隠されています。&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>なぜそれを避けているのか、その理由を探ってみましょう。&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>小さな一歩を踏み出すとしたら、何ができるでしょうか？</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="flip-instruction"&gt;カードをタップすると裏返ります&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="navigation"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="prev-btn" disabled&gt;前へ&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="next-btn"&gt;次へ&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-progress" id="card-progress"&gt;1/10&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="footer"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>© 2025 ヒかりエ - LINE登録特典</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// 質問カードのデータ</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const cards = [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>number: 1,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>question: "今日、あなたが避けていることは何ですか？",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>guidance: "避けていることには、あなたの成長のヒントが隠されています。&lt;br&gt;なぜそれを避けているのか、その理由を探ってみましょう。&lt;br&gt;小さな一歩を踏み出すとしたら、何ができるでしょうか？"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>number: 2,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>question: "自分を最も制限している思い込みは何ですか？",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>guidance: "私たちは無意識のうちに自分を制限する思い込みを持っています。&lt;br&gt;その思い込みが本当に真実かどうか、立ち止まって考えてみましょう。&lt;br&gt;もしその思い込みがなかったら、あなたは何を始めますか？"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>number: 3,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>question: "本当はやりたいのに、恐れのために踏み出せないことは？",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>guidance: "恐れは私たちを守る一方で、成長を妨げることもあります。&lt;br&gt;「怖いはGO」の精神で、恐れと向き合ってみましょう。&lt;br&gt;最初の小さな一歩は何でしょうか？"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>number: 4,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>question: "今の自分に最も必要なのは何ですか？",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>guidance: "内なる声に耳を傾け、今のあなたが本当に必要としているものを探りましょう。&lt;br&gt;それは休息かもしれないし、挑戦かもしれません。&lt;br&gt;今日からできる小さなセルフケアは何でしょうか？"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>number: 5,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>question: "自分のどんな部分を見下しがちですか？",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>guidance: "私たちは自分の一部を受け入れられないことがあります。&lt;br&gt;その部分にも存在する意味があります。&lt;br&gt;その部分に優しく寄り添うとしたら、どんな言葉をかけますか？"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>number: 6,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>question: "どんな時に最も自分らしくいられますか？",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>guidance: "自分らしくいられる瞬間には、あなたの本質が現れています。&lt;br&gt;その状態をより頻繁に体験するには何が必要でしょうか。&lt;br&gt;日常に、その要素をどう取り入れられますか？"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>number: 7,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>question: "繰り返し経験するパターンは何ですか？",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>guidance: "人生で繰り返されるパターンには重要なメッセージがあります。&lt;br&gt;それはあなたに何を教えようとしているでしょうか。&lt;br&gt;このパターンを変えるために、意識できることは何ですか？"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>number: 8,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>question: "あなたの強みを3つ挙げるとしたら？",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>guidance: "私たちは弱点に目を向けがちですが、強みこそが成長の源です。&lt;br&gt;あなたの強みをどのように活かせるでしょうか。&lt;br&gt;明日からできる小さな実践方法を考えてみましょう。"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>number: 9,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>question: "子供の頃の夢と今の自分をつなぐものは？",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>guidance: "子供の頃の夢には、あなたの本質的な願いが込められています。&lt;br&gt;その頃の情熱や好奇心を今の生活に取り入れるには？&lt;br&gt;小さな形でも、その要素を復活させることができますか？"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>number: 10,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>question: "「怖いはGO」を実践するなら、次に何をしますか？",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>guidance: "恐れを感じることは、あなたが成長しようとしている証拠です。&lt;br&gt;その恐れに向かって一歩踏み出すとしたら？&lt;br&gt;失敗を恐れずに、どんな小さな行動から始められますか？"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>];</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>let currentCardIndex = 0;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const card = document.getElementById('card');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const prevBtn = document.getElementById('prev-btn');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const nextBtn = document.getElementById('next-btn');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const questionNumber = document.getElementById('question-number');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const questionTitle = document.getElementById('question-title');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const cardProgress = document.getElementById('card-progress');</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// カードをクリックしたときの処理</p>
-<p class="p1"><span class="Apple-converted-space">        </span>card.addEventListener('click', function() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>this.classList.toggle('flipped');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// 前のカードを表示</p>
-<p class="p1"><span class="Apple-converted-space">        </span>prevBtn.addEventListener('click', function() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (currentCardIndex &gt; 0) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>currentCardIndex--;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>updateCard();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// 次のカードを表示</p>
-<p class="p1"><span class="Apple-converted-space">        </span>nextBtn.addEventListener('click', function() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (currentCardIndex &lt; cards.length - 1) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>currentCardIndex++;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>updateCard();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// カードの内容を更新</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function updateCard() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>card.classList.remove('flipped');</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>const currentCard = cards[currentCardIndex];</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// 表面の更新</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.querySelectorAll('.question-number').forEach(el =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>el.textContent = `質問 ${currentCard.number}/10`;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.querySelectorAll('.question-title').forEach(el =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>el.textContent = currentCard.question;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// 裏面の更新</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const cardBack = document.querySelector('.card-back .question-guidance');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cardBack.innerHTML = currentCard.guidance;</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// ナビゲーションボタンの状態更新</p>
-<p class="p1"><span class="Apple-converted-space">            </span>prevBtn.disabled = (currentCardIndex === 0);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>nextBtn.disabled = (currentCardIndex === cards.length - 1);</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// プログレス表示の更新</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cardProgress.textContent = `${currentCardIndex + 1}/10`;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+    <div class="container">
+        <h1>自分と向き合うための質問カード</h1>
+        
+        <div class="card-container">
+            <div class="card" id="card">
+                <div class="card-face card-front">
+                    <span class="question-number" id="question-number">質問 1/10</span>
+                    <div class="question-title" id="question-title">今日、あなたが避けていることは何ですか？</div>
+                    <div class="question-hint">タップしてヒントを見る</div>
+                </div>
+                <div class="card-face card-back">
+                    <span class="question-number">質問 1/10</span>
+                    <div class="question-title">今日、あなたが避けていることは何ですか？</div>
+                    <div class="question-guidance">
+                        避けていることには、あなたの成長のヒントが隠されています。<br>
+                        なぜそれを避けているのか、その理由を探ってみましょう。<br>
+                        小さな一歩を踏み出すとしたら、何ができるでしょうか？
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flip-instruction">カードをタップすると裏返ります</div>
+        
+        <div class="navigation">
+            <button id="prev-btn" disabled>前へ</button>
+            <button id="next-btn">次へ</button>
+        </div>
+        
+        <div class="card-progress" id="card-progress">1/10</div>
+        
+        <div class="footer">
+            © 2025 ヒかりエ - LINE登録特典
+        </div>
+    </div>
+
+    <script>
+        // 質問カードのデータ
+        const cards = [
+            {
+                number: 1,
+                question: "今日、あなたが避けていることは何ですか？",
+                guidance: "避けていることには、あなたの成長のヒントが隠されています。<br>なぜそれを避けているのか、その理由を探ってみましょう。<br>小さな一歩を踏み出すとしたら、何ができるでしょうか？"
+            },
+            {
+                number: 2,
+                question: "自分を最も制限している思い込みは何ですか？",
+                guidance: "私たちは無意識のうちに自分を制限する思い込みを持っています。<br>その思い込みが本当に真実かどうか、立ち止まって考えてみましょう。<br>もしその思い込みがなかったら、あなたは何を始めますか？"
+            },
+            {
+                number: 3,
+                question: "本当はやりたいのに、恐れのために踏み出せないことは？",
+                guidance: "恐れは私たちを守る一方で、成長を妨げることもあります。<br>「怖いはGO」の精神で、恐れと向き合ってみましょう。<br>最初の小さな一歩は何でしょうか？"
+            },
+            {
+                number: 4,
+                question: "今の自分に最も必要なのは何ですか？",
+                guidance: "内なる声に耳を傾け、今のあなたが本当に必要としているものを探りましょう。<br>それは休息かもしれないし、挑戦かもしれません。<br>今日からできる小さなセルフケアは何でしょうか？"
+            },
+            {
+                number: 5,
+                question: "自分のどんな部分を見下しがちですか？",
+                guidance: "私たちは自分の一部を受け入れられないことがあります。<br>その部分にも存在する意味があります。<br>その部分に優しく寄り添うとしたら、どんな言葉をかけますか？"
+            },
+            {
+                number: 6,
+                question: "どんな時に最も自分らしくいられますか？",
+                guidance: "自分らしくいられる瞬間には、あなたの本質が現れています。<br>その状態をより頻繁に体験するには何が必要でしょうか。<br>日常に、その要素をどう取り入れられますか？"
+            },
+            {
+                number: 7,
+                question: "繰り返し経験するパターンは何ですか？",
+                guidance: "人生で繰り返されるパターンには重要なメッセージがあります。<br>それはあなたに何を教えようとしているでしょうか。<br>このパターンを変えるために、意識できることは何ですか？"
+            },
+            {
+                number: 8,
+                question: "あなたの強みを3つ挙げるとしたら？",
+                guidance: "私たちは弱点に目を向けがちですが、強みこそが成長の源です。<br>あなたの強みをどのように活かせるでしょうか。<br>明日からできる小さな実践方法を考えてみましょう。"
+            },
+            {
+                number: 9,
+                question: "子供の頃の夢と今の自分をつなぐものは？",
+                guidance: "子供の頃の夢には、あなたの本質的な願いが込められています。<br>その頃の情熱や好奇心を今の生活に取り入れるには？<br>小さな形でも、その要素を復活させることができますか？"
+            },
+            {
+                number: 10,
+                question: "「怖いはGO」を実践するなら、次に何をしますか？",
+                guidance: "恐れを感じることは、あなたが成長しようとしている証拠です。<br>その恐れに向かって一歩踏み出すとしたら？<br>失敗を恐れずに、どんな小さな行動から始められますか？"
+            }
+        ];
+        
+        let currentCardIndex = 0;
+        const card = document.getElementById('card');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const questionNumber = document.getElementById('question-number');
+        const questionTitle = document.getElementById('question-title');
+        const cardProgress = document.getElementById('card-progress');
+        
+        // カードをクリックしたときの処理
+        card.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+        });
+        
+        // 前のカードを表示
+        prevBtn.addEventListener('click', function() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCard();
+            }
+        });
+        
+        // 次のカードを表示
+        nextBtn.addEventListener('click', function() {
+            if (currentCardIndex < cards.length - 1) {
+                currentCardIndex++;
+                updateCard();
+            }
+        });
+        
+        // カードの内容を更新
+        function updateCard() {
+            card.classList.remove('flipped');
+            
+            const currentCard = cards[currentCardIndex];
+            
+            // 表面の更新
+            document.querySelectorAll('.question-number').forEach(el => {
+                el.textContent = `質問 ${currentCard.number}/10`;
+            });
+            
+            document.querySelectorAll('.question-title').forEach(el => {
+                el.textContent = currentCard.question;
+            });
+            
+            // 裏面の更新
+            const cardBack = document.querySelector('.card-back .question-guidance');
+            cardBack.innerHTML = currentCard.guidance;
+            
+            // ナビゲーションボタンの状態更新
+            prevBtn.disabled = (currentCardIndex === 0);
+            nextBtn.disabled = (currentCardIndex === cards.length - 1);
+            
+            // プログレス表示の更新
+            cardProgress.textContent = `${currentCardIndex + 1}/10`;
+        }
+    </script>
 </body>
 </html>
